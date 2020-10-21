@@ -2,7 +2,7 @@ package com.programming.techie.springredditclone;
 
 import org.testcontainers.containers.MySQLContainer;
 
-public class BaseTest {
+public abstract class BaseTest {
 
     static MySQLContainer mySQLContainer = (MySQLContainer) new MySQLContainer("mysql:latest")
             .withDatabaseName("spring-reddit-test-db")
