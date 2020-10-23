@@ -1,10 +1,13 @@
 package com.programming.techie.springredditclone.controller;
 
 import com.programming.techie.springredditclone.dto.PostResponse;
+import com.programming.techie.springredditclone.security.JwtProvider;
 import com.programming.techie.springredditclone.service.PostService;
+import com.programming.techie.springredditclone.service.UserDetailsServiceImpl;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,6 +24,10 @@ public class PostControllerTest {
 
     @MockBean
     private PostService postService;
+    @MockBean
+    private UserDetailsServiceImpl userDetailsService;
+    @MockBean
+    private JwtProvider jwtProvider;
 
     @Autowired
     private MockMvc mockMvc;
@@ -37,13 +44,13 @@ public class PostControllerTest {
 
         mockMvc.perform(get("/api/posts/"))
                 .andExpect(status().is(200))
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.size()", Matchers.is(2)))
-                .andExpect(jsonPath("$[0].id", Matchers.is(1L)))
+                .andExpect(jsonPath("$[0].id", Matchers.is(1)))
                 .andExpect(jsonPath("$[0].postName", Matchers.is("Post Name")))
                 .andExpect(jsonPath("$[0].url", Matchers.is("http://url.site")))
-                .andExpect(jsonPath("$[1].url", Matchers.is("http://url1.site1")))
+                .andExpect(jsonPath("$[1].url", Matchers.is("http://url2.site2")))
                 .andExpect(jsonPath("$[1].postName", Matchers.is("Post Name 2")))
-                .andExpect(jsonPath("$[1].id", Matchers.is(2L)));
+                .andExpect(jsonPath("$[1].id", Matchers.is(2)));
     }
 }
